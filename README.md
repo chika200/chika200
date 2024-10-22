@@ -9,6 +9,7 @@ This script combines a UI library for creating an interface, functionality for t
 - **Anti-AFK Mechanism**: Prevents the player from being kicked for idling.
 - **Quick Reset**: Instantly resets your character with a keybind.
 - **Discord Notifications**: Sends messages to a specified Discord channel when players leave or when the server shuts down.
+- **Webhook Configuration**: Allows users to input their Discord webhook URL via a GUI.
 
 ## How to Use
 
