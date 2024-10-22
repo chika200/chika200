@@ -60,12 +60,13 @@ AntiAFKGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 -- Main Frame
 MainFrame.Parent = AntiAFKGui
-MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-MainFrame.Size = UDim2.new(0, 400, 0, 100)
+MainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+MainFrame.Size = UDim2.new(0, 400, 0, 120)
 MainFrame.Position = UDim2.new(0.5, -200, 0.1, 0)
 MainFrame.BorderSizePixel = 0
-MainFrame.BackgroundTransparency = 0.5
+MainFrame.BackgroundTransparency = 0.7
 MainFrame.Draggable = true
+MainFrame.BorderColor3 = Color3.fromRGB(0, 255, 255)
 
 -- Title Label
 TitleLabel.Parent = MainFrame
@@ -89,7 +90,7 @@ StatusLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 
 -- Creator Label
 CreatorLabel.Parent = MainFrame
-CreatorLabel.Text = "Made by Chika" -- Your credit here
+CreatorLabel.Text = "Made by Chika"
 CreatorLabel.Size = UDim2.new(1, 0, 0, 30)
 CreatorLabel.Position = UDim2.new(0, 0, 0.75, 0)
 CreatorLabel.BackgroundTransparency = 1
@@ -108,7 +109,13 @@ game:GetService('Players').LocalPlayer.Idled:connect(function()
 end)
 
 -- Function to send a message to Discord
+local HttpService = game:GetService("HttpService")
 local function sendToDiscord(playerName, reason)
+    if webhookURL == "" then
+        print("Webhook URL is not set.")
+        return
+    end
+
     local data = {
         ["content"] = playerName .. " has " .. reason .. " the game."
     }
