@@ -38,6 +38,16 @@ AppearanceSection:NewKeybind("Toggle UI", "Show or hide the UI.", Enum.KeyCode.R
     Library:ToggleUI()
 end)
 
+-- Webhook Configuration GUI
+local WebhookTab = Window:NewTab("Webhook Configuration")
+local WebhookSection = WebhookTab:NewSection("Set Your Webhook")
+
+-- Input for Webhook URL
+local webhookURL = ""
+WebhookSection:NewInput("Webhook URL", "Enter your Discord webhook URL", function(value)
+    webhookURL = value
+end)
+
 -- Anti AFK GUI
 local AntiAFKGui = Instance.new("ScreenGui")
 local MainFrame = Instance.new("Frame")
@@ -79,7 +89,7 @@ StatusLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 
 -- Creator Label
 CreatorLabel.Parent = MainFrame
-CreatorLabel.Text = "Made by Chika"
+CreatorLabel.Text = "Made by Chika" -- Your credit here
 CreatorLabel.Size = UDim2.new(1, 0, 0, 30)
 CreatorLabel.Position = UDim2.new(0, 0, 0.75, 0)
 CreatorLabel.BackgroundTransparency = 1
@@ -96,10 +106,6 @@ game:GetService('Players').LocalPlayer.Idled:connect(function()
     wait(2)
     StatusLabel.Text = "Status: Active"
 end)
-
--- Discord Webhook
-local HttpService = game:GetService("HttpService")
-local webhookURL = "https://discord.com/api/webhooks/1298264959633063996/s_yLMXCFk2YJ0vocUHgTWfGdEPATYSCHitEjcl2dklGQXDhdAgTTThtWJOeiwiUzGdWO"
 
 -- Function to send a message to Discord
 local function sendToDiscord(playerName, reason)
