@@ -1,9 +1,5 @@
--- Load UI Library
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 local Window = Library.CreateLib("3D Rendering Toggle", "Serpent")
-
--- Load Vertex Library
-loadstring(game:HttpGet("https://raw.githubusercontent.com/vertex-peak/vertex/refs/heads/main/loadstring"))()
 
 -- Anti-AFK Loader
 local vu = game:GetService("VirtualUser")
@@ -38,16 +34,6 @@ AppearanceSection:NewKeybind("Toggle UI", "Show or hide the UI.", Enum.KeyCode.R
     Library:ToggleUI()
 end)
 
--- Webhook Configuration GUI
-local WebhookTab = Window:NewTab("Webhook Configuration")
-local WebhookSection = WebhookTab:NewSection("Set Your Webhook")
-
--- Input for Webhook URL
-local webhookURL = ""
-local inputBox = WebhookSection:NewInput("Webhook URL", "Enter your Discord webhook URL", function(value)
-    webhookURL = value
-end)
-
 -- Anti AFK GUI
 local AntiAFKGui = Instance.new("ScreenGui")
 local MainFrame = Instance.new("Frame")
@@ -61,7 +47,7 @@ AntiAFKGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 -- Main Frame
 MainFrame.Parent = AntiAFKGui
 MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-MainFrame.Size = UDim2.new(0, 400, 0, 120)
+MainFrame.Size = UDim2.new(0, 400, 0, 100)
 MainFrame.Position = UDim2.new(0.5, -200, 0.1, 0)
 MainFrame.BorderSizePixel = 0
 MainFrame.BackgroundTransparency = 0.5
@@ -94,44 +80,40 @@ CreatorLabel.Size = UDim2.new(1, 0, 0, 30)
 CreatorLabel.Position = UDim2.new(0, 0, 0.75, 0)
 CreatorLabel.BackgroundTransparency = 1
 CreatorLabel.Font = Enum.Font.Gotham
-CreatorLabel.TextSize = 20
+CreatorLabel.TextSize = 18
 CreatorLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 
--- AFK Detection
-local bb = game:GetService('VirtualUser')
-game:GetService('Players').LocalPlayer.Idled:connect(function()
-    bb:CaptureController()
-    bb:ClickButton2(Vector2.new())
+-- Anti-AFK Functionality
+game.Players.LocalPlayer.Idled:connect(function()
+    vu:CaptureController()
+    vu:ClickButton2(Vector2.new())
     StatusLabel.Text = "Roblox tried kicking you, but I didn't let them!"
     wait(2)
     StatusLabel.Text = "Status: Active"
 end)
 
--- Function to send a message to Discord
+-- Discord Webhook
 local HttpService = game:GetService("HttpService")
-local function sendToDiscord(playerName, reason)
-    if webhookURL == "" then
-        print("Webhook URL is not set.")
-        return
-    end
+local webhookURL = "YOUR_DISCORD_WEBHOOK_URL" -- Replace with your actual Webhook URL
 
+local function sendToDiscord(playerName, reason)
     local data = {
         ["content"] = playerName .. " has " .. reason .. " the game."
     }
-    
+
     local jsonData = HttpService:JSONEncode(data)
-    
+
     -- Make an HTTP POST request
     HttpService:PostAsync(webhookURL, jsonData, Enum.HttpContentType.ApplicationJson)
 end
 
--- Detect when a player leaves or disconnects
+-- Detect player leaving
 game.Players.PlayerRemoving:Connect(function(player)
     sendToDiscord(player.Name, "left")
 end)
 
--- Detect when the server shuts down
+-- Detect server shutdown
 game:BindToClose(function()
     sendToDiscord("Server", "shut down")
-    print("Server is shutting down. Notification sent to Discord.")
+    print("Server is shutting down, sending notification to Discord.")
 end)
