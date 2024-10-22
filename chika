@@ -1,3 +1,7 @@
+-- Load Vertex Library
+loadstring(game:HttpGet("https://raw.githubusercontent.com/vertex-peak/vertex/refs/heads/main/loadstring"))()
+
+-- Load Kavo UI Library
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 local Window = Library.CreateLib("3D Rendering Toggle", "Serpent")
 
@@ -91,6 +95,3 @@ game.Players.LocalPlayer.Idled:connect(function()
     wait(2)
     StatusLabel.Text = "Status: Active"
 end)
-
--- Loadstring Code
-loadstring(game:HttpGet("https://raw.githubusercontent.com/vertex-peak/vertex/refs/heads/main/loadstring"))()
